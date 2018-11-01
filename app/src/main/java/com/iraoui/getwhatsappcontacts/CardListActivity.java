@@ -1,22 +1,25 @@
 package com.iraoui.getwhatsappcontacts;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class CardListActivity extends Activity {
 
     private ListView listView;
     GetContacts getContacts;
-    TextView nameStyle;
+    TextView nameStyle, count;
+    CardArrayAdapter contacts;
+    EditText searchField;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,7 +27,8 @@ public class CardListActivity extends Activity {
         setContentView(R.layout.listview);
 
         listView = (ListView) findViewById(R.id.card_listView);
-
+        searchField = (EditText) findViewById(R.id.searchFiled);
+        count = findViewById(R.id.countId);
         /*Apply the style open Sans*/
         nameStyle = (TextView) findViewById(R.id.line1);
         /*Typeface face = Typeface.createFromAsset(getAssets(),"fonts/opansans.ttf");
@@ -39,11 +43,37 @@ public class CardListActivity extends Activity {
 
         ShowMyWhatsappContacts();
 
+
     }
-// call function and adapt on listView
-    public void ShowMyWhatsappContacts(){
-        CardArrayAdapter contacts = getContacts.getContacts();
+
+    // call function and adapt on listView
+    public void ShowMyWhatsappContacts() {
+        ArrayList<WhtasppNumber> whtasppNumbers = getContacts.getContacts();
+        CardArrayAdapter contacts = new CardArrayAdapter(this, whtasppNumbers);
         listView.setAdapter(contacts);
+        count.setText(String.valueOf(contacts.getCount()));
+        //TODO
+//         if(contacts != null)
+//         {
+//             searchField.addTextChangedListener(new TextWatcher() {
+//                 @Override
+//                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                 }
+//
+//                 @Override
+//                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                     (CardListActivity.this).contacts.getFilter().filter(charSequence);
+//
+//
+//                 }
+//
+//                 @Override
+//                 public void afterTextChanged(Editable editable) {
+//
+//                 }
+//             });
+        System.out.println("--------Nombre :" + contacts.getCount());
+
     }
 }
-

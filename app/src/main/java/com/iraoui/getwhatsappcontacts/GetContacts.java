@@ -6,21 +6,28 @@ import android.database.Cursor;
 import android.provider.ContactsContract;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by IRAOUI on 29/10/2018.
  */
 
 public class GetContacts {
+
     private Context context;
     private CardArrayAdapter cardArrayAdapter;
+    ArrayList<WhtasppNumber> whtasppNumbers ;
 
-    public GetContacts(Context context) {
+    public GetContacts(Context context)
+    {
         this.context = context;
-        cardArrayAdapter = new CardArrayAdapter(this.context, R.layout.list_item_card);
+       // cardArrayAdapter = new CardArrayAdapter(this.context, R.layout.list_item_card,);
+        whtasppNumbers = new ArrayList<>();
     }
 
-    public CardArrayAdapter getContacts() {
+    public ArrayList<WhtasppNumber> getContacts()
+    {
         //This class provides applications access to the content model.
         ContentResolver cr = context.getContentResolver();
 
@@ -32,7 +39,6 @@ public class GetContacts {
                 ContactsContract.RawContacts.ACCOUNT_TYPE + "= ?",
                 new String[]{"com.whatsapp"},
                 null);
-
         //ArrayList for Store Whatsapp Contact
 
         if (contactCursor != null) {
@@ -52,7 +58,8 @@ public class GetContacts {
                                     ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
                                     new String[]{whatsappContactId}, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME +" ASC");
 
-                            if (whatsAppContactCursor != null) {
+                            if (whatsAppContactCursor != null)
+                            {
                                 whatsAppContactCursor.moveToFirst();
                                 String id = whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
                                 String name = whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
@@ -63,7 +70,7 @@ public class GetContacts {
                                 //Add Number to CardArrayAdapter
                                 WhtasppNumber whtasppNumber = new WhtasppNumber( name , number) ;
 
-                                cardArrayAdapter.add(whtasppNumber);
+                                whtasppNumbers.add(whtasppNumber);
 
                                 System.out.println("----------------------------------------------------");
                                 System.out.println(" WhatsApp contact id  :  " + id);
@@ -78,6 +85,6 @@ public class GetContacts {
             }
         }
 
-        return cardArrayAdapter;
+        return whtasppNumbers;
     }
 }

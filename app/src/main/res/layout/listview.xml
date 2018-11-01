@@ -7,6 +7,31 @@
     android:layout_height="wrap_content"
     android:background="#e2e4fe">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/searchFiled"
+            android:layout_width="275dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+
+            android:hint="Taper le nom"
+            android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/countId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:layout_marginLeft="10dp"
+            android:text="TextView" />
+
+    </LinearLayout>
+
     <ListView
         android:id="@+id/card_listView"
         android:layout_width="match_parent"
@@ -14,5 +39,7 @@
         android:listSelector="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"
         android:divider="@null"
-        android:dividerHeight="10dp" />
+        android:dividerHeight="10dp" >
+
+    </ListView>
 </LinearLayout>

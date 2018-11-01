@@ -4,10 +4,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,27 +17,37 @@ import com.amulyakhare.textdrawable.TextDrawable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by IRAOUI on 29/10/2018.
  */
 
 public class CardArrayAdapter  extends ArrayAdapter<WhtasppNumber> {
-    private static final String TAG = "CardArrayAdapter";
-    private List<WhtasppNumber> cardList = new ArrayList<>();
 
-    static class CardViewHolder {
+    private static final String TAG = "CardArrayAdapter";
+
+    private ArrayList<WhtasppNumber> cardList;
+    private ArrayList<WhtasppNumber> mOriginalValues;
+
+    private LayoutInflater layoutinflater;
+
+    static class CardViewHolder
+    {
         TextView line1;
         TextView line2;
         ImageView imageView;
     }
 
-    public CardArrayAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
+    public CardArrayAdapter(Context context, ArrayList<WhtasppNumber> whtasppNumbers)
+    {
+        super(context, 0,whtasppNumbers);
+        cardList = whtasppNumbers;
     }
 
     @Override
-    public void add(WhtasppNumber object) {
+    public void add(WhtasppNumber object)
+    {
         cardList.add(object);
         super.add(object);
     }
@@ -51,10 +63,14 @@ public class CardArrayAdapter  extends ArrayAdapter<WhtasppNumber> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
         View row = convertView;
+
         CardViewHolder viewHolder;
-        if (row == null) {
+
+        if (row == null)
+        {
             LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.list_item_card, parent, false);
             viewHolder = new CardViewHolder();
