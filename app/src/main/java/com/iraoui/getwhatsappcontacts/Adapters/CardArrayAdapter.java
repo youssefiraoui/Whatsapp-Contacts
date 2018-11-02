@@ -1,23 +1,19 @@
-package com.iraoui.getwhatsappcontacts;
+package com.iraoui.getwhatsappcontacts.Adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amulyakhare.textdrawable.TextDrawable;
+import com.iraoui.getwhatsappcontacts.R;
+import com.iraoui.getwhatsappcontacts.entities.WhtasppNumber;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by IRAOUI on 29/10/2018.

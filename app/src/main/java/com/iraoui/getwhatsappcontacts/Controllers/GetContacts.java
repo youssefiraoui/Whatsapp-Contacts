@@ -1,14 +1,16 @@
-package com.iraoui.getwhatsappcontacts;
+package com.iraoui.getwhatsappcontacts.Controllers;
 
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 
+import com.iraoui.getwhatsappcontacts.Adapters.CardArrayAdapter;
+import com.iraoui.getwhatsappcontacts.entities.WhtasppNumber;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 /**
  * Created by IRAOUI on 29/10/2018.

@@ -1,4 +1,4 @@
-package com.iraoui.getwhatsappcontacts;
+package com.iraoui.getwhatsappcontacts.entities;
 
 /**
  * Created by IRAOUI on 29/10/2018.
