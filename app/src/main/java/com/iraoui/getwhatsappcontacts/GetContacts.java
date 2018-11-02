@@ -7,6 +7,7 @@ import android.provider.ContactsContract;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -54,6 +55,9 @@ public class GetContacts {
                                     ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                                     new String[]{ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
                                             ContactsContract.CommonDataKinds.Phone.NUMBER,
+                                            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_ALTERNATIVE,
+                                            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY,
+                                            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_SOURCE,
                                             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME},
                                     ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
                                     new String[]{whatsappContactId}, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME +" ASC");
@@ -64,8 +68,12 @@ public class GetContacts {
                                 String id = whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
                                 String name = whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                                 String number = whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                                String name1 =whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_ALTERNATIVE));
+                                String name2 =whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY));
+                                String name3 =whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_SOURCE));
 
-                                whatsAppContactCursor.close();
+
+                                    whatsAppContactCursor.close();
 
                                 //Add Number to CardArrayAdapter
                                 WhtasppNumber whtasppNumber = new WhtasppNumber( name , number) ;
@@ -85,6 +93,12 @@ public class GetContacts {
             }
         }
 
+            Collections.sort(whtasppNumbers, new Comparator<WhtasppNumber>() {
+                @Override
+                public int compare(WhtasppNumber lhs, WhtasppNumber rhs) {
+                    return lhs.getName().compareTo(rhs.getName());
+                }
+            });
         return whtasppNumbers;
     }
 }
