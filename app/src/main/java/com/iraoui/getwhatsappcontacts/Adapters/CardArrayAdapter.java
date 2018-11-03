@@ -80,23 +80,36 @@ public class CardArrayAdapter  extends ArrayAdapter<WhtasppNumber> {
         }
 
         WhtasppNumber card = getItem(position);
+
         /*
         Showing contact name with initial letter in circle
          */
         TextDrawable drawable= null;
         String nameX="A", nameY = "B";
         String[] words = card.getName().split(" ");
-        if (words.length == 2){
+
+        if (words.length == 1)
+        {
+        drawable = TextDrawable.builder()
+                .buildRect(card.getName().substring(0, 1).toUpperCase()+" X" ,
+                        Color.rgb(232,180,231));
+
+        }
+        else if (words.length == 2)
+        {
             nameX = words[0];
             nameY = words[1];
             drawable = TextDrawable.builder()
-                    .buildRect(nameX.substring(0, 1).toUpperCase() + " "+ nameY.substring(0, 1).toUpperCase() , Color.rgb(232,180,231));
+                    .buildRect(nameX.substring(0, 1).toUpperCase() + " "+ nameY.substring(0, 1).toUpperCase() ,
+                            Color.rgb(232,180,231));
 
-        }else {
+        }else
+            {
             drawable = TextDrawable.builder()
-                    .buildRect(card.getName().substring(0, 2).toUpperCase() , Color.rgb(232,180,231));
+                    .buildRect(card.getName().substring(0, 2).toUpperCase() ,
+                            Color.rgb(232,180,231));
 
-        }
+           }
 
         viewHolder.imageView.setImageDrawable(drawable);
         viewHolder.line1.setText(card.getName());
