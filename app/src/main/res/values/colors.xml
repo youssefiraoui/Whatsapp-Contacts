@@ -4,4 +4,10 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorMauve">#d473d4</color>
+    <color name="colorSecondary">#aa00ff</color>
+    <color name="colorRed">#ff2026</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorAmber">#FFC400</color>
+    <color name="whtsappColor">#128C7E</color>
+    <color name="green">#25D366</color>
 </resources>
