@@ -11,6 +11,13 @@
     app:showAsAction="always">
 
 </item>
+    <item android:id="@+id/deconnexion"
+        android:title="Log-out"
+        android:icon="@drawable/ic_power_settings_new_black_24dp"
+        app:showAsAction="ifRoom"
+        >
+
+    </item>
 
 
 </menu>

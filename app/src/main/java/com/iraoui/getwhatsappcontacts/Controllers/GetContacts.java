@@ -1,13 +1,18 @@
 package com.iraoui.getwhatsappcontacts.Controllers;
 
 import android.content.ContentResolver;
+import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.provider.ContactsContract;
 
 import com.iraoui.getwhatsappcontacts.Adapters.CardArrayAdapter;
 import com.iraoui.getwhatsappcontacts.entities.WhtasppNumber;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -57,9 +62,6 @@ public class GetContacts {
                                     ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                                     new String[]{ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
                                             ContactsContract.CommonDataKinds.Phone.NUMBER,
-                                            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_ALTERNATIVE,
-                                            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY,
-                                            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_SOURCE,
                                             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME},
                                     ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
                                     new String[]{whatsappContactId}, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME +" ASC");
@@ -70,15 +72,14 @@ public class GetContacts {
                                 String id = whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));
                                 String name = whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
                                 String number = whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                                String name1 =whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_ALTERNATIVE));
-                                String name2 =whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY));
-                                String name3 =whatsAppContactCursor.getString(whatsAppContactCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_SOURCE));
-
-
-                                    whatsAppContactCursor.close();
+                                // trying to get whatsapp's pdp
+                                Uri photoId = ContentUris.withAppendedId(ContactsContract.RawContacts.CONTENT_URI, Long.parseLong(whatsappContactId));
+                                Uri photoUri = Uri.withAppendedPath(photoId, ContactsContract.RawContacts.DisplayPhoto.CONTENT_DIRECTORY);
+                                Bitmap bitmap = getDisplayPhotoBitmap(Long.parseLong(whatsappContactId));
+                                whatsAppContactCursor.close();
 
                                 //Add Number to CardArrayAdapter
-                                WhtasppNumber whtasppNumber = new WhtasppNumber( name , number) ;
+                                WhtasppNumber whtasppNumber = new WhtasppNumber( name , number, bitmap) ;
 
                                 whtasppNumbers.add(whtasppNumber);
 
@@ -86,6 +87,7 @@ public class GetContacts {
                                 System.out.println(" WhatsApp contact id  :  " + id);
                                 System.out.println(" WhatsApp contact name :  " + name);
                                 System.out.println(" WhatsApp contact number :  " + number);
+                                System.out.println(" WhatsApp contact photo link :  " + photoUri);
                                 System.out.println("----------------------------------------------------");
                             }
                         }
@@ -102,5 +104,16 @@ public class GetContacts {
                 }
             });
         return whtasppNumbers;
+    }
+
+    public Bitmap getDisplayPhotoBitmap(long contactId) {
+        Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, contactId);
+        InputStream photoInputStream =
+                ContactsContract.Contacts.openContactPhotoInputStream(context.getContentResolver(), contactUri);
+        Bitmap bitmap = BitmapFactory.decodeStream(photoInputStream);
+        if (bitmap != null) {
+            return bitmap;
+        }
+        return null;
     }
 }
