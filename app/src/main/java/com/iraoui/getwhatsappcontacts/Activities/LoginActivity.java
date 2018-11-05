@@ -123,4 +123,8 @@ public class LoginActivity extends AppCompatActivity {
         edtPassword.setText("");
     }
 
+    @Override
+    public void onBackPressed() {
+      return ;
+    }
 }

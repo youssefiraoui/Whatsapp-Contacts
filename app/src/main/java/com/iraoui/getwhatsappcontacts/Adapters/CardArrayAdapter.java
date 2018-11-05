@@ -25,9 +25,6 @@ public class CardArrayAdapter  extends ArrayAdapter<WhtasppNumber> {
     private static final String TAG = "CardArrayAdapter";
 
     private ArrayList<WhtasppNumber> cardList;
-    private ArrayList<WhtasppNumber> mOriginalValues;
-
-    private LayoutInflater layoutinflater;
 
     static class CardViewHolder
     {

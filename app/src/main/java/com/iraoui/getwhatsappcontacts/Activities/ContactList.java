@@ -1,8 +1,17 @@
 package com.iraoui.getwhatsappcontacts.Activities;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -16,11 +25,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iraoui.getwhatsappcontacts.Adapters.CardArrayAdapter;
+import com.iraoui.getwhatsappcontacts.Adapters.FetchContacts;
 import com.iraoui.getwhatsappcontacts.Controllers.GetContacts;
 import com.iraoui.getwhatsappcontacts.R;
 import com.iraoui.getwhatsappcontacts.entities.WhtasppNumber;
 
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 
 public class ContactList extends AppCompatActivity {
@@ -48,20 +62,59 @@ public class ContactList extends AppCompatActivity {
         getContacts = new GetContacts(this);
 
 
+        whtasppNumbers = new ArrayList<>();
+
+
         listView.addHeaderView(new View(this));
         listView.addFooterView(new View(this));
+        /*
 
+         new AsyncTask<Void, WhtasppNumber, Void>(){
+            private CardArrayAdapter adapter;
+            @Override
+            protected void onPreExecute() {
+            }
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                whtasppNumbers = getContacts.getContacts();
+                return null;
+            }
+
+            @Override
+            protected void onProgressUpdate(WhtasppNumber... values) {
+
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                CardArrayAdapter contacts = new CardArrayAdapter(ContactList.this, whtasppNumbers);
+                listView.setAdapter(contacts);
+            }
+        }.execute();
+         */
+
+        new FetchContacts(ContactList.this, new FetchContacts.OnContactFetchListener() {
+            @Override
+            public void onContactFetch(ArrayList<WhtasppNumber> whtasppNumber) {
+                whtasppNumbers = whtasppNumber;
+                CardArrayAdapter contacts = new CardArrayAdapter(ContactList.this, whtasppNumber);
+                listView.setAdapter(contacts);
+            }
+        }).execute();
+
+        CardArrayAdapter contacts = new CardArrayAdapter(ContactList.this, new ArrayList<WhtasppNumber>());
+        listView.setAdapter(contacts);
 
         ShowMyWhatsappContacts();
 
     }
-
     // call function and adapt on listView
      public void ShowMyWhatsappContacts() {
 
-        whtasppNumbers = getContacts.getContacts();
-        CardArrayAdapter contacts = new CardArrayAdapter(this, whtasppNumbers);
-        listView.setAdapter(contacts);
+        //whtasppNumbers = getContacts.getContacts();
+        //CardArrayAdapter contacts = new CardArrayAdapter(this, whtasppNumbers);
+        //listView.setAdapter(contacts);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -69,7 +122,7 @@ public class ContactList extends AppCompatActivity {
             }
         });
 
-            System.out.println("--------Nombre :" + contacts.getCount());
+           // System.out.println("--------Nombre :" + contacts.getCount());
 
      }
 
@@ -129,4 +182,8 @@ public class ContactList extends AppCompatActivity {
         intent.addCategory(Intent.CATEGORY_HOME);
         startActivity(intent);
     }
+
+
+
+
 }

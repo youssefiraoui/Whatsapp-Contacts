@@ -56,7 +56,7 @@
             android:layout_height="60dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:src="@drawable/whtsp"
+            android:src="@drawable/applicationicon"
             android:id="@+id/imageView" />
 
         <Button
